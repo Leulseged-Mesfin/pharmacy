@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
+from datetime import timedelta
+from dotenv import load_dotenv
+
+ # Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-usb68n6!l4-&*$al-w!ft^d1#pylmp4ni4*$p2orbv6jzh1#c9'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.8.169', '192.168.189.180', '192.168.137.133', '192.168.144.180', '192.168.137.216', '192.168.155.180', '192.168.155.244', 'poo-drf.onrender.com', '192.168.8.106']
+
 
 
 # Application definition
@@ -45,6 +53,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +62,17 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    # "http://localhost:8000",
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    # "http://192.168.8.169:5173",
+    "https://poo-drf.onrender.com"
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+
 
 ROOT_URLCONF = 'pharma_project.urls'
 
@@ -73,6 +93,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'pharma_project.wsgi.application'
+
 
 
 # Database
@@ -134,6 +155,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Fixed Version
+MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 SWAGGER_SETTINGS = {
     'SECURITY_DEFINITIONS': {
         'Bearer': {
@@ -162,7 +189,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=300),  # Short lifespan for access tokens to reduce security risks.
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Short lifespan for access tokens to reduce security risks.
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),     # Longer lifespan for refresh tokens to enhance user experience.
     'ROTATE_REFRESH_TOKENS': False,                  # Rotate refresh tokens to improve security by invalidating old tokens.
     'BLACKLIST_AFTER_ROTATION': False,               # Blacklist old refresh tokens after rotation to prevent reuse.
@@ -180,3 +207,4 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'users.UserAccount'
