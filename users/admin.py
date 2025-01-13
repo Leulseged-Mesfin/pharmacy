@@ -18,7 +18,7 @@ class AccountAdmin(UserAdmin):
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
         ('Personal Info', {'fields': ('name', 'gender', 'age', 'address', 'mobile', 'profile_image')}),
-        ('Roles and Permissions', {'fields': ('role', 'is_active', 'is_staff', 'is_superuser')}),
+        ('Roles and Permissions', {'fields': ('role', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
         ('Important Dates', {'fields': ('created_at', 'updated_at')}),
     )
 

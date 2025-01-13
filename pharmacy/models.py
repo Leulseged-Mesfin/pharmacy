@@ -26,6 +26,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
     buying_price = models.DecimalField(max_digits=10, decimal_places=2)
     selling_price = models.DecimalField(max_digits=10, decimal_places=2)
+    manufacture_date = models.DateField(null=True, blank=True)
     expiry_date = models.DateField(null=True, blank=True)
     stock = models.PositiveIntegerField()
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)

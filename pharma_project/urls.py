@@ -42,7 +42,7 @@ urlpatterns = [
     path('api/token/verify/', TokenVerifyView.as_view()),
     path('admin/', admin.site.urls),
     path('auth/user/', include('users.urls')),
-    path('api/pharmacy/', include('pharmacy.urls')),
+    path('api/inventory/', include('pharmacy.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-schema'),
 ]
 
